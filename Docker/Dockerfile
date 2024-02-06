@@ -7,7 +7,7 @@ WORKDIR /app
 #ENV FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE
 # Install dependencies
 RUN apt-get update && apt-get upgrade -y -qq
-RUN apt-get install -y systemctl iputils-ping dmidecode ca-certificates libxcb-cursor0 -qq
+RUN apt-get install -y systemctl iputils-ping dmidecode ca-certificates libxcb-cursor0 dos2unix -qq
 RUN apt-get autoremove -y && apt-get clean -y && apt-get autoclean -y
 # Import certificates
 RUN mkdir -p /usr/local/share/ca-certificates
@@ -18,6 +18,7 @@ COPY ../UpdateServer/FTOptixApplicationUpdateService.Ubuntu_22_x64.*.sh /app/
 # Execute the setup
 COPY ../Scripts/container-setup.sh /app/
 RUN ls -a
+RUN dos2unix /app/container-setup.sh /app/container-setup.sh
 RUN chmod +x /app/container-setup.sh
 RUN ./container-setup.sh
 WORKDIR /root

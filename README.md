@@ -221,3 +221,15 @@ root@dfaa01569c9c:~#
 
 - The FT Optix application folder can be persisted by running the container with:  `docker run -itd -p 49100:49100 -p 50080:80 -e FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE -v /path/on/host:/root/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication ftoptix-updateserver`
     - Make sure to replace `path/on/host` with a valid path on the host machine where the FT Optix Application is stored when the container is restarted
+
+#### How do I change the deployment password of the UpdateServer?
+
+The UpdateServer will use the local machine's account to authenticate itself against the FactoryTalk Optix Studio. To change the deployment password you can:
+
+- Change the default password while creating the container:
+    - Open the Dockerfile
+    - Change the content of: `RUN echo "root:FactoryTalkOptix" | chpasswd`, here you can replace `FactoryTalkOptix` with any valid password you wish
+
+- Change the default password of a running container
+    - Access the container's shell using: `docker exec -it [container name] bash`
+    - Execute: `echo "root:FactoryTalkOptix" | chpasswd`, here you can replace `FactoryTalkOptix` with any valid password you wish
