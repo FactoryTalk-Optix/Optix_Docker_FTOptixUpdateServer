@@ -6,7 +6,7 @@ WORKDIR /app
 # Setting the entitlement number (optional)
 #ENV FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE
 # Install dependencies
-RUN apt-get update && apt-get upgrade -y -qq
+RUN apt-get clean && apt-get update && apt-get upgrade -y -qq
 RUN apt-get install -y systemctl iputils-ping dmidecode ca-certificates libxcb-cursor0 libglib2.0-bin dos2unix -qq
 RUN apt-get autoremove -y && apt-get clean -y && apt-get autoclean -y
 # Import certificates

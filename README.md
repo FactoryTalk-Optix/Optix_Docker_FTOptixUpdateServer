@@ -30,7 +30,7 @@ This repository contains the required files to build and run a Docker Container 
             - Add the current user to the Docker group: `sudo usermod -aG docker $USER`
             - Reboot the machine to apply changes
 - FT Optix studio installed on  your development machine
-    - Licensing on Docker containers is only supported starting from FT Optix 1.4.X
+    - Licensing on Docker containers is only supported starting from FT Optix 1.4.0.315
 - A proper Runtime license must be available to execute the container for more than two hours
     - This step is optional, if not properly licensed, the FT Optix Application will stop after 120 minutes and must be deployed again
 - Get the latest Runtime Tools for Ubuntu x86-64 (see below)
