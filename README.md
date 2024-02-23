@@ -11,19 +11,19 @@ The examples provided are to be used as a reference for building your applicatio
 This repository contains the required files to build and run a Docker Container with the Factory Talk Optix Update Service.
 
 - This procedure involves some good knowledge of Linux systems and Docker containers and it is intended for advanced users
-- The default entrypoint is the `FTOptixApplicationUpdateServer` itself
+- The default entry point is the `FTOptixApplicationUpdateServer` itself
 - The final container should be set to restart automatically on fail. 
 - Upgrade of the `UpdateServer` via FT Optix IDE is not supported
-- Default user is `root` and password is `FactoryTalkOptix`
-- In order to activate a license and run the container for more than 120 minutes, an internet connectivity to the Rockwell Automation cloud must be available at all times
+- The default user is `root` and the password is `FactoryTalkOptix`
+- To activate a license and run the container for more than 120 minutes, internet connectivity to the Rockwell Automation cloud must be available at all times
     - If no internet connectivity is available, the FT Optix Application will be stopped after 120 minutes and must be deployed again from FT Optix Studio
-    - The license is passed to the container as an environment variable, this variable is then periodically checked to a Rockwell Automation server in order to check its validity
+    - The license is passed to the container as an environment variable, this variable is then periodically checked to a Rockwell Automation server to check its validity
 
 ## Requirements
 
 - Docker engine must be installed and running
     - Refer to the ([official documentation](https://docs.docker.com/get-docker/))
-    - (optional) Set users right to access Docker socket with either one of these steps if you want to execute the container as non root:
+    - (optional) Set users' right to access the Docker socket with either one of these steps if you want to execute the container as non-root:
         - Changing the socket permissions with: `sudo chmod 666 /var/run/docker.sock` (valid up to next reboot)
         - Configuring the Docker group ([official documentation](https://docs.docker.com/engine/install/linux-postinstall/))
             - Add the new group: `sudo groupadd docker`
@@ -39,7 +39,7 @@ This repository contains the required files to build and run a Docker Container 
 
 ### Clone this repository
 
-1. Open a terminal and execute `git clone [repo url]` replacing  `[repo url]` by the URL provided in this page or through the green "Code" button at the top right corner
+1. Open a terminal and execute `git clone [repo url]` replacing  `[repo url]` by the URL provided on this page or through the green "Code" button at the top right corner
 
 ### Downloading the Ubuntu Runtime Tools
 
@@ -48,7 +48,7 @@ This repository contains the required files to build and run a Docker Container 
 
 ![FT Optix tile](./images/fthub.png "FT Optix tile")
 
-3. Click to download the FT Optix Runtime Tools compatible to the FT Optix Studio you are going to use
+3. Click to download the FT Optix Runtime Tools compatible with the FT Optix Studio you are going to use
 
 ![Runtime Tools download from FT Hub](./images/runtimetools-fthub.png "Runtime Tools download from FT Hub")
 
@@ -150,13 +150,13 @@ CONTAINER ID   IMAGE                  COMMAND                  CREATED          
 - Prepare your FT Optix Application by:
     - Removing the NativePresentationEngine
     - Configure the WebPresentationEngine
-        - Set the IP address to `0.0.0.0` (all interfaces)
-        - Set the Port to `80` (or any value you configured as internal port of the container)
+        - Set the IP address to `0.0.0.0` (all addresses)
+        - Set the Port to `80` (or any value you configured as an internal port of the container)
         - Set the Protocol to `http`
 
 ![FT Optix Application preparation](./images/ftoptix-app-setup.png "FT Optix Application setup")
 
-- Once the application is ready, configure the target with the proper ip address and username and proceed with the deployment
+- Once the application is ready, configure the target with the proper IP Address and username and proceed with the deployment
 
 ![Deployment options](./images/deployment-options.png "Deployment options")
 
@@ -164,7 +164,7 @@ CONTAINER ID   IMAGE                  COMMAND                  CREATED          
 
 ![Deploy project](./images/deploy-project.png "Deploy the project to the target")
 
-- Open the WebBrowser and enter the URL: `http://<container_ip>:50080`
+- Open the web browser and enter the URL: `http://<container_ip>:50080`
 
 ![FT Optix Application running](./images/ftoptix-app.png "FT Optix Application running")
 
@@ -179,7 +179,7 @@ CONTAINER ID   IMAGE                  COMMAND                  CREATED          
 #### I passed a valid license to the container but the Runtime log says "No license tokens found, FactoryTalk Optix Runtime will be closed in: 120 minutes"
 
 1. Make sure that the license is valid
-    - Verify trough FT Hub that the license is available to be used
+    - Verify through FT Hub that the license is available to be used
     - Verify that the size of the license is big enough to run the application (license tokens count >= application tokens count)
 2. Investigate the license SDK
     - Open a shell prompt on the host machine
@@ -187,7 +187,7 @@ CONTAINER ID   IMAGE                  COMMAND                  CREATED          
     - Connect to the running container with `docker exec -it [container name] bash`
     - Browse to `/root/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication/Log/FTOptixLicenseSDK/`
     - Inspect the `FTOptixLicenseSDK.log`
-        - Here you should see the error (timeout,  invalid license key etc.)
+        - Here you should see the error (timeout,  invalid license key, etc.)
         - If there are issues that cannot be solved locally please get in touch with Rockwell Automation Software Tech Support
 
 ```bash
