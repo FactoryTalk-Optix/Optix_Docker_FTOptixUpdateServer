@@ -1,32 +1,28 @@
 # Base image Ubuntu_22_x64
 FROM ubuntu:22.04
 SHELL ["/bin/bash", "-c"]
-# Where we are going to place the files we need
-WORKDIR /app
-# Setting the entitlement number (optional)
-#ENV FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE
-# Install dependencies
-RUN apt-get clean && apt-get update && apt-get upgrade -y -qq
-RUN apt-get install -y systemctl iputils-ping dmidecode ca-certificates libxcb-cursor0 libglib2.0-bin dos2unix -qq
+# Install dependencies and clean output image
+RUN apt-get update && apt-get install -y dmidecode ca-certificates libxcb-cursor0 libglib2.0-bin libltdl7 -qq
 RUN apt-get autoremove -y && apt-get clean -y && apt-get autoclean -y
-# Import certificates
+# Provide fake systemctl because it cannot work on Docker
+RUN echo "echo 'echo systemctl was called'" > /usr/bin/systemctl && chmod +x /usr/bin/systemctl
+# Import RA certificate
 RUN mkdir -p /usr/local/share/ca-certificates
 COPY ../Certificates/RockwellAutomation_CA.crt /usr/local/share/ca-certificates/
 RUN update-ca-certificates
-# Copy the Update Server file
-COPY ../UpdateServer/FTOptixApplicationUpdateService.Ubuntu_22_x64.*.sh /app/
+# Copy the Update Server file to temporary folder
+COPY ../UpdateServer/FTOptixApplicationUpdateService.Ubuntu*x64*.sh /root/app/
+# Where we are going to place the files we need
+WORKDIR /root/app
 # Execute the setup
-COPY ../Scripts/container-setup.sh /app/
-RUN ls -a
-RUN dos2unix /app/container-setup.sh /app/container-setup.sh
-RUN chmod +x /app/container-setup.sh
-RUN ./container-setup.sh
-WORKDIR /root
-RUN rm -rf /app
+RUN ./$(find FTOptixApplicationUpdateService.Ubuntu*x64*.sh) -s
+RUN rm -rf /root
 # Set the default password
 RUN echo "root:FactoryTalkOptix" | chpasswd
 # Set QT flag to run WebApp
 ENV QT_QPA_PLATFORM=offscreen
+# Prepare folder for FactoryTalk® Optix™ Application
+RUN mkdir -p ~/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication
 # Expose the UpdateServer port (mandatory!)
 EXPOSE 49100/tcp
 # Expose the WebPresentationEngine port (optional)

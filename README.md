@@ -1,4 +1,4 @@
-# Deploying FT Optix Applications on Docker containers
+# Deploying FactoryTalk® Optix™ Applications on Docker containers
 
 ## Disclaimer
 
@@ -13,14 +13,15 @@ This repository contains the required files to build and run a Docker Container 
 - This procedure involves some good knowledge of Linux systems and Docker containers and it is intended for advanced users
 - The default entry point is the `FTOptixApplicationUpdateServer` itself
 - The final container should be set to restart automatically on fail. 
-- Upgrade of the `UpdateServer` via FT Optix IDE is not supported
+- Upgrade of the `UpdateServer` via FactoryTalk® Optix™ IDE is not supported
 - The default user is `root` and the password is `FactoryTalkOptix`
 - To activate a license and run the container for more than 120 minutes, internet connectivity to the Rockwell Automation cloud must be available at all times
-    - If no internet connectivity is available, the FT Optix Application will be stopped after 120 minutes and must be deployed again from FT Optix Studio
+    - If no internet connectivity is available, the FactoryTalk® Optix™ Application will be stopped after 120 minutes and must be deployed again from FactoryTalk® Optix™ Studio
     - The license is passed to the container as an environment variable, this variable is then periodically checked to a Rockwell Automation server to check its validity
 
 ## Requirements
 
+- FactoryTalk® Optix™ version 1.4.0.450 or later
 - Docker engine must be installed and running
     - Refer to the ([official documentation](https://docs.docker.com/get-docker/))
     - (optional) Set users' right to access the Docker socket with either one of these steps if you want to execute the container as non-root:
@@ -29,10 +30,10 @@ This repository contains the required files to build and run a Docker Container 
             - Add the new group: `sudo groupadd docker`
             - Add the current user to the Docker group: `sudo usermod -aG docker $USER`
             - Reboot the machine to apply changes
-- FT Optix studio installed on  your development machine
-    - Licensing on Docker containers is only supported starting from FT Optix 1.4.0.450
+- FactoryTalk® Optix™ studio installed on  your development machine
+    - Licensing on Docker containers is only supported starting from FactoryTalk® Optix™ 1.4.0.450
 - A proper Runtime license must be available to execute the container for more than two hours
-    - This step is optional, if not properly licensed, the FT Optix Application will stop after 120 minutes and must be deployed again
+    - This step is optional, if not properly licensed, the FactoryTalk® Optix™ Application will stop after 120 minutes and must be deployed again
 - Get the latest Runtime Tools for Ubuntu x86-64 (see below)
 
 ## Container setup
@@ -44,11 +45,11 @@ This repository contains the required files to build and run a Docker Container 
 ### Downloading the Ubuntu Runtime Tools
 
 1. Go to the Factory Talk Hub page [link](https://home.cloud.rockwellautomation.com)
-2. Select the FT Optix tile
+2. Select the FactoryTalk® Optix™ tile
 
 ![FT Optix tile](./images/fthub.png "FT Optix tile")
 
-3. Click to download the FT Optix Runtime Tools compatible with the FT Optix Studio you are going to use
+3. Click to download the FactoryTalk® Optix™ Runtime Tools compatible with the FactoryTalk® Optix™ Studio you are going to use
 
 ![Runtime Tools download from FT Hub](./images/runtimetools-fthub.png "Runtime Tools download from FT Hub")
 
@@ -119,7 +120,7 @@ root@ubuntu-VirtualBox:#
 
 ## Container execution
 
-Now that the container is ready, we can execute it and deploy the FT Optix Application
+Now that the container is ready, we can execute it and deploy the FactoryTalk® Optix™ Application
 
 ### Execute the Docker container
 
@@ -145,9 +146,9 @@ CONTAINER ID   IMAGE                  COMMAND                  CREATED          
 0af756ce8ada   ftoptix-updateserver   "/opt/Rockwell_Autom…"   10 minutes ago   Up 10 minutes   0.0.0.0:49100->49100/tcp, 0.0.0.0:50080->80/tcp,  reverent_wilson
 ```
 
-### Deploy the FT Optix Application
+### Deploy the FactoryTalk® Optix™ Application
 
-- Prepare your FT Optix Application by:
+- Prepare your FactoryTalk® Optix™ Application by:
     - Removing the NativePresentationEngine
     - Configure the WebPresentationEngine
         - Set the IP address to `0.0.0.0` (all addresses)
@@ -171,7 +172,7 @@ CONTAINER ID   IMAGE                  COMMAND                  CREATED          
 ## Additional notes
 
 - License is verified every 30 minutes
-- If the FT Optix Application is stopped, the license is automatically released
+- If the FactoryTalk® Optix™ Application is stopped, the license is automatically released
 - If the application crashes and the license is not released automatically to FT Hub, you may need to get in touch with the Rockwell Automation Software Tech Support
 
 ## Troubleshooting
@@ -205,7 +206,7 @@ root@dfaa01569c9c:~#
 
 #### My application crashed, how can I investigate the issue?
 
-- Access the FT Optix Application logs
+- Access the FactoryTalk® Optix™ Application logs
     - Open a shell prompt on the host machine
     - Identify the container name with `docker ps -a`
     - Connect to the running container with `docker exec -it [container name] bash`
@@ -219,8 +220,8 @@ root@dfaa01569c9c:~#
 
 #### How can I make the application folder persistent to avoid deploying my application every time the container starts?
 
-- The FT Optix application folder can be persisted by running the container with:  `docker run -itd -p 49100:49100 -p 50080:80 -e FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE -v /path/on/host:/root/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication ftoptix-updateserver`
-    - Make sure to replace `path/on/host` with a valid path on the host machine where the FT Optix Application is stored when the container is restarted
+- The FactoryTalk® Optix™ application folder can be persisted by running the container with:  `docker run -itd -p 49100:49100 -p 50080:80 -e FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE -v /path/on/host:/root/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication ftoptix-updateserver`
+    - Make sure to replace `path/on/host` with a valid path on the host machine where the FactoryTalk® Optix™ Application is stored when the container is restarted
 
 #### How do I change the deployment password of the UpdateServer?
 
