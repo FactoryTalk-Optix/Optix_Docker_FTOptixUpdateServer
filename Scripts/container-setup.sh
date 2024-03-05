@@ -13,15 +13,9 @@ if [[ $TARGETPLATFORM =~ "x86_64" ]]; then
 		echo "FTOptixApplicationUpdateService*.sh install file not found. Aborting!"
 		exit 1
 	fi
-	# Preparing input UpdateServer file
-	sed -i 's/read/#read/g' $script_path
-	sed -i 's/bold/#bold/g' $script_path
-	sed -i 's/normal/#normal/g' $script_path
-	sed -i 's/exit/#exit/g' $script_path
-	sed -i 's/$install_path\/install.sh/exit 0/g' $script_path
 	# Install UpdateServer
 	echo "Installing UpdateServer..."
-	./$script_path
+	./$script_path -s
 	# Check install result
 	exit_status=$?
 	if [ $exit_status -eq 0 ]; then
@@ -32,8 +26,7 @@ if [[ $TARGETPLATFORM =~ "x86_64" ]]; then
 		echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 		exit $exit_status
 	fi
-	# Decompress LicenseManager
-	echo "License manager must be manually configured! Application will run in demo mode!"
+	# Make sure application folder is available
 	echo "Completing..."
 	mkdir -p ~/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication
 else

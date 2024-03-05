@@ -30,7 +30,7 @@ This repository contains the required files to build and run a Docker Container 
             - Add the current user to the Docker group: `sudo usermod -aG docker $USER`
             - Reboot the machine to apply changes
 - FT Optix studio installed on  your development machine
-    - Licensing on Docker containers is only supported starting from FT Optix 1.4.0.315
+    - Licensing on Docker containers is only supported starting from FT Optix 1.4.0.450
 - A proper Runtime license must be available to execute the container for more than two hours
     - This step is optional, if not properly licensed, the FT Optix Application will stop after 120 minutes and must be deployed again
 - Get the latest Runtime Tools for Ubuntu x86-64 (see below)
@@ -233,3 +233,17 @@ The UpdateServer will use the local machine's account to authenticate itself aga
 - Change the default password of a running container
     - Access the container's shell using: `docker exec -it [container name] bash`
     - Execute: `echo "root:FactoryTalkOptix" | chpasswd`, here you can replace `FactoryTalkOptix` with any valid password you wish
+
+#### I can't download the application, all I see is "wrong username or password"
+
+- Make sure the container is up and running
+- Make sure the port 49100/TCP was exposed
+- Make sure the container is reachable
+- Make sure the proper user and password were used (default user is `root` and the password is `FactoryTalkOptix`)
+
+#### The license is not recognized by the FactoryTalk® Optix™ Application
+
+- Make sure the license is marked as "Available" in FactoryTalk® Hub
+- Make sure FactoryTalk® Optix™ version 1.4.0.450 or later was used
+    - Every FactoryTalk® Optix™ version comes with a specific UpdateServer version
+    - Make sure the right UpdateServer version was used
