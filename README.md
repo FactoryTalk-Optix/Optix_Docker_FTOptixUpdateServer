@@ -35,6 +35,7 @@ This repository contains the required files to build and run a Docker Container 
 - A proper Runtime license must be available to execute the container for more than two hours
     - This step is optional, if not properly licensed, the FactoryTalk® Optix™ Application will stop after 120 minutes and must be deployed again
 - Get the latest Runtime Tools for Ubuntu x86-64 (see below)
+- Usage of Ubuntu/Ubuntu Server as the host machine is strongly recommended
 
 ## Container setup
 
