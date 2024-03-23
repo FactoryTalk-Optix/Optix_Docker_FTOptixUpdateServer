@@ -1,3 +1,4 @@
 /UpdateServer/**
 !/UpdateServer/*.md
 **.env
+**.tar.gz

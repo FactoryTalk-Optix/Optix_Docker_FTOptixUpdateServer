@@ -8,12 +8,10 @@ RUN apt-get autoremove -y && apt-get clean -y && apt-get autoclean -y
 RUN echo "echo ''" > /usr/bin/systemctl && chmod +x /usr/bin/systemctl
 # Import RA certificate
 RUN mkdir -p /usr/local/share/ca-certificates
-COPY ../Certificates/RockwellAutomation_CA.crt /usr/local/share/ca-certificates/
+COPY Certificates/RockwellAutomation_CA.crt /usr/local/share/ca-certificates/
 RUN update-ca-certificates
 # Copy the Update Server file to temporary folder
-COPY ../UpdateServer/FTOptixApplicationUpdateService.Ubuntu*x64*.sh /root/app/
-# Copy the startup script
-COPY ../Scripts/init.sh /root/app/
+COPY UpdateServer/FTOptixApplicationUpdateService.Ubuntu*x64*.sh /root/app/
 # Where we are going to place the files we need
 WORKDIR /root/app
 # Execute the setup
@@ -29,6 +27,5 @@ RUN mkdir -p ~/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication
 EXPOSE 49100/tcp
 # Expose the WebPresentationEngine port (optional)
 EXPOSE 50080/tcp
-# Set the UpdateServer as entrypoint
-RUN chmod +x /root/app/init.sh
-ENTRYPOINT ["/root/app/init.sh"]
+# Default entry is the UpdateServer
+ENTRYPOINT ["/opt/Rockwell_Automation/FactoryTalk_Optix/ApplicationUpdateService/bin/FTOptixApplicationUpdateService"]

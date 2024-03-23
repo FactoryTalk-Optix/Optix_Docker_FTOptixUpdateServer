@@ -221,8 +221,7 @@ root@dfaa01569c9c:~#
 
 #### How can I make the application folder persistent to avoid deploying my application every time the container starts?
 
-- The FactoryTalk® Optix™ application folder can be persisted by running the container with:  `docker run -itd -p 49100:49100 -p 50080:80 -e FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE -v /path/on/host:/root/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication ftoptix-updateserver`
-    - Make sure to replace `path/on/host` with a valid path on the host machine where the FactoryTalk® Optix™ Application is stored when the container is restarted
+- This feature is not yet supported, please be patient as we are working on this
 
 #### How do I change the deployment password of the UpdateServer?
 
