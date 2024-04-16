@@ -15,6 +15,7 @@ COPY UpdateServer/FTOptixApplicationUpdateService.Ubuntu*x64*.sh /root/app/
 # Where we are going to place the files we need
 WORKDIR /root/app
 # Execute the setup
+RUN chmod +x ./$(find FTOptixApplicationUpdateService.Ubuntu*x64*.sh)
 RUN ./$(find FTOptixApplicationUpdateService.Ubuntu*x64*.sh) -s
 RUN rm -rf ./$(find FTOptixApplicationUpdateService.Ubuntu*x64*.sh)
 # Set the default password
