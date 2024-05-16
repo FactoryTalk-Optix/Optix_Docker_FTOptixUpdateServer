@@ -14,7 +14,7 @@ This repository contains the required files to build and run a Docker Container 
 - The default entry point is the `FTOptixApplicationUpdateServer` itself
 - The final container should be set to restart automatically on fail. 
 - Upgrade of the `UpdateServer` via FactoryTalk® Optix™ IDE is not supported
-- The default user is `root` and the password is `FactoryTalkOptix`
+- The default user is `admin` and the password is `FactoryTalkOptix`
 - To activate a license and run the container for more than 120 minutes, internet connectivity to the Rockwell Automation cloud must be available at all times
     - If no internet connectivity is available, the FactoryTalk® Optix™ Application will be stopped after 120 minutes and must be deployed again from FactoryTalk® Optix™ Studio
     - The license is passed to the container as an environment variable, this variable is then periodically checked to a Rockwell Automation server to check its validity
@@ -88,21 +88,9 @@ root@ubuntu-VirtualBox:# docker build . -t ftoptix-updateserver -f Docker/Docker
  => [ 1/16] FROM docker.io/library/ubuntu:22.04                                                              0.0s
  => [internal] load build context                                                                            0.2s
  => => transferring context: 37.42MB                                                                         0.2s
- => DONE [ 2/16] WORKDIR /app                                                                                0.0s
- => DONE [ 3/16] RUN apt-get update && apt-get upgrade -y -qq                                                0.0s
- => DONE [ 4/16] RUN apt-get install -y systemctl iputils-ping dmidecode ca-certificates libxcb-cursor0 -qq  0.0s
- => DONE [ 5/16] RUN apt-get autoremove -y && apt-get clean -y && apt-get autoclean -y                       0.0s
- => DONE [ 6/16] RUN mkdir -p /usr/local/share/ca-certificates                                               0.0s
- => DONE [ 7/16] COPY ../Certificates/RockwellAutomation_CA.crt /usr/local/share/ca-certificates/            0.0s
- => DONE [ 8/16] RUN update-ca-certificates                                                                  0.0s
- => DONE [ 9/16] COPY ../UpdateServer/FTOptixApplicationUpdateService.Ubuntu_22_x64.*.sh /app/               0.0s
- => DONE [10/16] COPY ../Scripts/container-setup.sh /app/                                                    0.0s
- => DONE [11/16] RUN ls -a                                                                                   0.0s
- => DONE [12/16] RUN chmod +x /app/container-setup.sh                                                        0.0s
- => DONE [13/16] RUN ./container-setup.sh                                                                    0.0s
- => DONE [14/16] WORKDIR /root                                                                               0.0s
- => DONE [15/16] RUN rm -rf /app                                                                             0.0s
- => DONE [16/16] RUN echo "root:FactoryTalkOptix" | chpasswd                                                 0.0s
+ => DONE [ 2/16] ************                                                                                0.0s
+...
+ => DONE [16/16] ************                                                                                0.0s
  => exporting to image                                                                                       0.0s
  => => exporting layers                                                                                      0.0s
  => => writing image sha256:18eb........                                                                     0.0s
@@ -144,7 +132,7 @@ In this example we will assume that the base image is called `ftoptix-updateserv
 ```bash
 root@ubuntu-VirtualBox:# docker ps -a
 CONTAINER ID   IMAGE                  COMMAND                  CREATED          STATUS          PORTS                                             NAMES
-0af756ce8ada   ftoptix-updateserver   "/opt/Rockwell_Autom…"   10 minutes ago   Up 10 minutes   0.0.0.0:49100->49100/tcp, 0.0.0.0:50080->80/tcp,  reverent_wilson
+************   ftoptix-updateserver   "/opt/Rockwell_Autom…"   10 minutes ago   Up 10 minutes   0.0.0.0:49100->49100/tcp, 0.0.0.0:50080->80/tcp,  reverent_wilson
 ```
 
 ### Deploy the FactoryTalk® Optix™ Application
@@ -187,7 +175,7 @@ CONTAINER ID   IMAGE                  COMMAND                  CREATED          
     - Open a shell prompt on the host machine
     - Identify the container name with `docker ps -a`
     - Connect to the running container with `docker exec -it [container name] bash`
-    - Browse to `/root/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication/Log/FTOptixLicenseSDK/`
+    - Browse to `/home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication/Log/FTOptixLicenseSDK/`
     - Inspect the `FTOptixLicenseSDK.log`
         - Here you should see the error (timeout,  invalid license key, etc.)
         - If there are issues that cannot be solved locally please get in touch with Rockwell Automation Software Tech Support
@@ -198,7 +186,7 @@ ONTAINER ID   IMAGE                  COMMAND                  CREATED          S
 dfaa01569c9c   ftoptix-updateserver   "/opt/Rockwell_Autom…"   37 seconds ago   Up 36 seconds              0.0.0.0:49100->49100/tcp, :::49100->49100/tcp, 50080/tcp, 0.0.0.0:50080->80/tcp, :::50080->80/tcp   jolly_hofstadter
 
 root@ubuntu-VirtualBox:# docker exec -it jolly_hofstadter bash
-root@dfaa01569c9c:~# cd /root/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication/Log/FTOptixLicenseSDK/
+root@dfaa01569c9c:~# cd /home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication/Log/FTOptixLicenseSDK/
 root@dfaa01569c9c:~# cat FTOptixLicenseSDK.log 
 [2024-01-31 10:59:17.474] [LicenseSDK] [trace] [LicenseRepository] Called GetValidLicenses(product: Optix, component: Runtime)
 [2024-01-31 10:59:17.475] [LicenseSDK] [trace] [GetValidLicenses] License storage contains 0 entitlement(s)
@@ -211,7 +199,7 @@ root@dfaa01569c9c:~#
     - Open a shell prompt on the host machine
     - Identify the container name with `docker ps -a`
     - Connect to the running container with `docker exec -it [container name] bash`
-    - Browse to `/root/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication/Log/`
+    - Browse to `/home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication/Log/`
     - Inspect the `FTOptixRuntime.0.log`
 - Contact Rockwell Automation Software Tech Support if needed
 
@@ -221,7 +209,15 @@ root@dfaa01569c9c:~#
 
 #### How can I make the application folder persistent to avoid deploying my application every time the container starts?
 
-- This feature is not yet supported, please be patient as we are working on this
+- Run the container by binding the runtime app path (`/home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication`) to a folder on the host machine, for example:
+
+```bash
+root@ubuntu-VirtualBox:/media/sf_GitHub/Optix_Docker_FTOptixUpdateServer# docker run -itd -p 49100:49100 -p 50080:80 -e FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE -v /home/ubuntu/Documents/FTOptix:/home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication ftoptix-updateserver
+
+d0bd53d3ef******************************************
+
+root@ubuntu-VirtualBox:/media/sf_GitHub/Optix_Docker_FTOptixUpdateServer# 
+```
 
 #### How do I change the deployment password of the UpdateServer?
 
@@ -229,18 +225,18 @@ The UpdateServer will use the local machine's account to authenticate itself aga
 
 - Change the default password while creating the container:
     - Open the Dockerfile
-    - Change the content of: `RUN echo "root:FactoryTalkOptix" | chpasswd`, here you can replace `FactoryTalkOptix` with any valid password you wish
+    - Change the content of: `RUN echo "admin:FactoryTalkOptix" | chpasswd`, here you can replace `FactoryTalkOptix` with any valid password you wish
 
 - Change the default password of a running container
     - Access the container's shell using: `docker exec -it [container name] bash`
-    - Execute: `echo "root:FactoryTalkOptix" | chpasswd`, here you can replace `FactoryTalkOptix` with any valid password you wish
+    - Execute: `echo "admin:FactoryTalkOptix" | chpasswd`, here you can replace `FactoryTalkOptix` with any valid password you wish
 
 #### I can't download the application, all I see is "wrong username or password"
 
 - Make sure the container is up and running
 - Make sure the port 49100/TCP was exposed
 - Make sure the container is reachable
-- Make sure the proper user and password were used (default user is `root` and the password is `FactoryTalkOptix`)
+- Make sure the proper user and password were used (default user is `admin` and the password is `FactoryTalkOptix`)
 
 #### The license is not recognized by the FactoryTalk® Optix™ Application
 
