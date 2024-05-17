@@ -212,11 +212,11 @@ root@dfaa01569c9c:~#
 - Run the container by binding the runtime app path (`/home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication`) to a folder on the host machine, for example:
 
 ```bash
-root@ubuntu-VirtualBox:/media/sf_GitHub/Optix_Docker_FTOptixUpdateServer# docker run -itd -p 49100:49100 -p 50080:80 -e FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE -v /home/ubuntu/Documents/FTOptix:/home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication ftoptix-updateserver
+root@ubuntu-VirtualBox:~# docker run -itd -p 49100:49100 -p 50080:80 -e FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE -v /home/ubuntu/Documents/FTOptix:/home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication ftoptix-updateserver
 
 d0bd53d3ef******************************************
 
-root@ubuntu-VirtualBox:/media/sf_GitHub/Optix_Docker_FTOptixUpdateServer# 
+root@ubuntu-VirtualBox:~# 
 ```
 
 #### How do I change the deployment password of the UpdateServer?
