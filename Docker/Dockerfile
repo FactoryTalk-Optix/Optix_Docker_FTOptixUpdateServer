@@ -14,6 +14,10 @@ RUN mkdir -p /usr/local/share/ca-certificates
 COPY Certificates/RockwellAutomation_CA.crt /usr/local/share/ca-certificates/
 RUN update-ca-certificates
 
+# Copy permissions script
+COPY Scripts/restore_permissions.sh /root/app/restore_permissions.sh
+RUN chmod +x /root/app/restore_permissions.sh
+
 # Setup supervisord
 RUN mkdir -p /var/log/supervisor
 COPY Services/supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
@@ -45,7 +49,7 @@ ENV QT_QPA_PLATFORM=offscreen
 
 # Prepare folder for FactoryTalk® Optix™ Application
 RUN mkdir -p /home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication \
-    && chown admin:admin /home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication
+    && chown -R admin:admin /home/admin/Rockwell_Automation/
 
 # Expose the UpdateServer port (mandatory!)
 EXPOSE 49100/tcp
@@ -53,4 +57,4 @@ EXPOSE 49100/tcp
 EXPOSE 50080/tcp
 
 # Default entry is the UpdateServer
-ENTRYPOINT ["/usr/bin/supervisord"]
+ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
