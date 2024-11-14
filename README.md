@@ -9,33 +9,54 @@ The examples provided are to be used as a reference for building your applicatio
 ## Introduction
 
 This repository contains the required files to build and run a Docker Container with the Factory Talk Optix Update Service.
+ 
+> [!NOTE]
+> The default user is `admin` and the password is `FactoryTalkOptix`
 
-- This procedure involves some good knowledge of Linux systems and Docker containers and it is intended for advanced users
-- The default entry point is the `FTOptixApplicationUpdateServer` itself
-- The final container should be set to restart automatically on fail. 
-- Upgrade of the `UpdateServer` via FactoryTalk® Optix™ IDE is not supported
-- The default user is `admin` and the password is `FactoryTalkOptix`
-- To activate a license and run the container for more than 120 minutes, internet connectivity to the Rockwell Automation cloud must be available at all times
-    - If no internet connectivity is available, the FactoryTalk® Optix™ Application will be stopped after 120 minutes and must be deployed again from FactoryTalk® Optix™ Studio
-    - The license is passed to the container as an environment variable, this variable is then periodically checked to a Rockwell Automation server to check its validity
+> [!CAUTION]
+> Upgrade of the `UpdateServer` via FactoryTalk® Optix™ IDE is not supported, a new container should be built and deployed if upgrading either the Runtime or the IDE
+
+> [!CAUTION]
+> This procedure involves some good knowledge of Linux systems and Docker containers and it is intended for advanced users
+
+> [!TIP]
+> The final container should be set to restart automatically on fail
+
+### Runtime licensing
+
+To activate a license and run the container for more than 120 minutes, internet connectivity to the Rockwell Automation cloud must be available at all times.
+- If no internet connectivity is available, the FactoryTalk® Optix™ Application will be stopped after 120 minutes and must be deployed again from FactoryTalk® Optix™ Studio
+- The license is passed to the container as an environment variable, this variable is then periodically checked to a Rockwell Automation server to check its validity
+
+> [!CAUTION]
+> As per FactoryTalk® Optix™ 1.5.x, no licensing mechanism of offline Docker Containers is available. If the container is not started with a valid license, or does not have internet connection (even if a valid license was provided), the Runtime will only work for 120 minutes. After the Runtime automatically stops, the FactoryTalk® Optix™ Application needs to be re-deployed to the container to restart.
+
+#### Additional notes
+
+- License is verified to the Rockwell Automation cloud every 30 minutes
+- If the FactoryTalk® Optix™ Application is stopped, the license is automatically released to FactoryTalk® Hub™ to be used by another application
+- If the application or the container crashes and the license is not released automatically to FactoryTalk® Hub™, please get in touch with the Rockwell Automation Software Tech Support
 
 ## Requirements
 
 - FactoryTalk® Optix™ version 1.4.0.450 or later
+- FactoryTalk® Optix™ studio installed on  the development machine
+- The latest Runtime Tools for Ubuntu x86-64 compatible to the FactoryTalk® Optix™ Studio version you are using to develop the application (see below)
 - Docker engine must be installed and running
-    - Refer to the ([official documentation](https://docs.docker.com/get-docker/))
-    - (optional) Set users' right to access the Docker socket with either one of these steps if you want to execute the container as non-root:
-        - Changing the socket permissions with: `sudo chmod 666 /var/run/docker.sock` (valid up to next reboot)
-        - Configuring the Docker group ([official documentation](https://docs.docker.com/engine/install/linux-postinstall/))
-            - Add the new group: `sudo groupadd docker`
-            - Add the current user to the Docker group: `sudo usermod -aG docker $USER`
-            - Reboot the machine to apply changes
-- FactoryTalk® Optix™ studio installed on  your development machine
-    - Licensing on Docker containers is only supported starting from FactoryTalk® Optix™ 1.4.0.450
-- A proper Runtime license must be available to execute the container for more than two hours
-    - This step is optional, if not properly licensed, the FactoryTalk® Optix™ Application will stop after 120 minutes and must be deployed again
-- Get the latest Runtime Tools for Ubuntu x86-64 (see below)
-- Usage of Ubuntu/Ubuntu Server as the host machine is strongly recommended
+
+> [!TIP]
+> Usage of Ubuntu or Ubuntu Server as host machine is recommended
+
+> [!TIP]
+> Refer to the [official documentation](https://docs.docker.com/get-docker/) on how to get Docker running on the host machine
+
+> [!TIP]
+> Set users' right to access the Docker socket with either one of these steps if you want to execute the container in rootless mode, either by:
+> - Changing the socket permissions with: `sudo chmod 666 /var/run/docker.sock` (valid up to next reboot)
+> - Configuring the Docker group ([official documentation](https://docs.docker.com/engine/install/linux-postinstall/))
+>   - Add the new group: `sudo groupadd docker`
+>   - Add the current user to the Docker group: `sudo usermod -aG docker $USER`
+>   - Reboot the machine to apply changes
 
 ## Container setup
 
@@ -111,7 +132,7 @@ root@ubuntu-VirtualBox:#
 
 Now that the container is ready, we can execute it and deploy the FactoryTalk® Optix™ Application
 
-### Execute the Docker container
+### 1. Execute the Docker container
 
 In this example we will assume that the base image is called `ftoptix-updateserver`, if you tagged the container with a different name, you may need to adapt the commands
 
@@ -125,7 +146,7 @@ In this example we will assume that the base image is called `ftoptix-updateserv
 - Execute in shell: `docker run -itd -p 49100:49100 -p 50080:80 ftoptix-updateserver`
     - Without a proper license, the runtime will automatically stop after 120 minutes
 
-### Check the container status
+### 2. Check the container status
 
 - Execute the following command: `docker ps -a`
 
@@ -135,7 +156,7 @@ CONTAINER ID   IMAGE                  COMMAND                  CREATED          
 ************   ftoptix-updateserver   "/opt/Rockwell_Autom…"   10 minutes ago   Up 10 minutes   0.0.0.0:49100->49100/tcp, 0.0.0.0:50080->80/tcp,  reverent_wilson
 ```
 
-### Deploy the FactoryTalk® Optix™ Application
+### 3. Deploy the FactoryTalk® Optix™ Application
 
 - Prepare your FactoryTalk® Optix™ Application by:
     - Removing the NativePresentationEngine
@@ -158,15 +179,10 @@ CONTAINER ID   IMAGE                  COMMAND                  CREATED          
 
 ![FT Optix Application running](./images/ftoptix-app.png "FT Optix Application running")
 
-## Additional notes
-
-- License is verified every 30 minutes
-- If the FactoryTalk® Optix™ Application is stopped, the license is automatically released
-- If the application crashes and the license is not released automatically to FT Hub, you may need to get in touch with the Rockwell Automation Software Tech Support
-
 ## Troubleshooting
 
-#### I passed a valid license to the container but the Runtime log says "No license tokens found, FactoryTalk Optix Runtime will be closed in: 120 minutes"
+<details>
+  <summary>I passed a valid license to the container but the Runtime log says "No license tokens found, FactoryTalk Optix Runtime will be closed in: 120 minutes"</summary>
 
 1. Make sure that the license is valid
     - Verify through FT Hub that the license is available to be used
@@ -192,8 +208,10 @@ root@dfaa01569c9c:~# cat FTOptixLicenseSDK.log
 [2024-01-31 10:59:17.475] [LicenseSDK] [trace] [GetValidLicenses] License storage contains 0 entitlement(s)
 root@dfaa01569c9c:~# 
 ```
+</details>
 
-#### My application crashed, how can I investigate the issue?
+<details>
+  <summary>My application crashed, how can I investigate the issue?</summary>
 
 - Access the FactoryTalk® Optix™ Application logs
     - Open a shell prompt on the host machine
@@ -202,12 +220,16 @@ root@dfaa01569c9c:~#
     - Browse to `/home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication/Log/`
     - Inspect the `FTOptixRuntime.0.log`
 - Contact Rockwell Automation Software Tech Support if needed
+</details>
 
-#### How can I set the container to restart automatically if the UpdateServer fails?
+<details>
+  <summary>How can I set the container to restart automatically if the UpdateServer fails?</summary>
 
 - Execute the container with: `docker run -itd -p 49100:49100 -p 50080:80 -e FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE --restart unless-stopped ftoptix-updateserver`
+</details>
 
-#### How can I make the application folder persistent to avoid deploying my application every time the container starts?
+<details>
+  <summary>How can I make the application folder persistent to avoid deploying my application every time the container starts?</summary>
 
 - Run the container by binding the runtime app path (`/home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication`) to a folder on the host machine, for example:
 
@@ -218,8 +240,10 @@ d0bd53d3ef******************************************
 
 root@ubuntu-VirtualBox:~# 
 ```
+</details>
 
-#### How do I change the deployment password of the UpdateServer?
+<details>
+  <summary>How do I change the deployment password of the UpdateServer?</summary>
 
 The UpdateServer will use the local machine's account to authenticate itself against the FactoryTalk Optix Studio. To change the deployment password you can:
 
@@ -230,17 +254,22 @@ The UpdateServer will use the local machine's account to authenticate itself aga
 - Change the default password of a running container
     - Access the container's shell using: `docker exec -it [container name] bash`
     - Execute: `echo "admin:FactoryTalkOptix" | chpasswd`, here you can replace `FactoryTalkOptix` with any valid password you wish
+</details>
 
-#### I can't download the application, all I see is "wrong username or password"
+<details>
+  <summary>I can't download the application, all I see is "wrong username or password"</summary>
 
 - Make sure the container is up and running
 - Make sure the port 49100/TCP was exposed
 - Make sure the container is reachable
 - Make sure the proper user and password were used (default user is `admin` and the password is `FactoryTalkOptix`)
+</details>
 
-#### The license is not recognized by the FactoryTalk® Optix™ Application
+<details>
+  <summary>The license is not recognized by the FactoryTalk® Optix™ Application</summary>
 
 - Make sure the license is marked as "Available" in FactoryTalk® Hub
 - Make sure FactoryTalk® Optix™ version 1.4.0.450 or later was used
     - Every FactoryTalk® Optix™ version comes with a specific UpdateServer version
     - Make sure the right UpdateServer version was used
+</details>
