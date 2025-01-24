@@ -136,6 +136,16 @@ Now that the container is ready, we can execute it and deploy the FactoryTalk® 
 
 In this example we will assume that the base image is called `ftoptix-updateserver`, if you tagged the container with a different name, you may need to adapt the commands
 
+> [!WARNING]
+> Only a single FactoryTalk Optix container can be executed at a time, as FactoryTalk Optix Studio does not allow specifying a custom deployment port.
+> If you need to run multiple containers, you will need to unbind the port `49100` after the FactoryTalk Optix Runtime application is deployed and running, then start the next container.
+
+> [!TIP]
+> The first time the container is executed you may see an error message in the logs with something like `spawner: can't find command '/home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication/FTOptixRuntime'`, this is expected as the FactoryTalk Optix application is not deployed yet to the container.
+
+> [!TIP]
+> The port mapping argument follows the pattern `-p [host_port]:[container_port]`, in this example we are mapping the host port `49100` to the container port `49100` and the host port `50080` (accessible by pointing to the host machine) to the container port `80` (the internal port where the FactoryTalk Optix application will be exposing the WebPresentationEngine)
+
 #### Executing the container with a Runtime license
 
 - Execute in shell: `docker run -itd -p 49100:49100 -p 50080:80 -e FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE ftoptix-updateserver`
@@ -162,12 +172,18 @@ CONTAINER ID   IMAGE                  COMMAND                  CREATED          
     - Removing the NativePresentationEngine
     - Configure the WebPresentationEngine
         - Set the IP address to `0.0.0.0` (all addresses)
-        - Set the Port to `80` (or any value you configured as an internal port of the container)
+        - Set the Port to `80` (or any value you configured as an internal port of the container run command in step #1)
         - Set the Protocol to `http`
 
 ![FT Optix Application preparation](./images/ftoptix-app-setup.png "FT Optix Application setup")
 
 - Once the application is ready, configure the target with the proper IP Address and username and proceed with the deployment
+
+> [!TIP]
+> The default user is `admin` and the password is `FactoryTalkOptix`
+
+> [!TIP]
+> The target IP Address should be the IP of the host machine where the container is running (the container was started in bridge mode)
 
 ![Deployment options](./images/deployment-options.png "Deployment options")
 
@@ -175,7 +191,7 @@ CONTAINER ID   IMAGE                  COMMAND                  CREATED          
 
 ![Deploy project](./images/deploy-project.png "Deploy the project to the target")
 
-- Open the web browser and enter the URL: `http://<container_ip>:50080`
+- Open the web browser and enter the URL: `http://<container_ip>:50080` (change the port if a different mapping was set in the run command)
 
 ![FT Optix Application running](./images/ftoptix-app.png "FT Optix Application running")
 
