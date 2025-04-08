@@ -13,10 +13,10 @@ This repository contains the required files to build and run a Docker Container 
 > [!NOTE]
 > The default user is `admin` and the password is `FactoryTalkOptix`
 
-> [!CAUTION]
+> [!WARNING]
 > Upgrade of the `UpdateServer` via FactoryTalk® Optix™ IDE is not supported, a new container should be built and deployed if upgrading either the Runtime or the IDE
 
-> [!CAUTION]
+> [!WARNING]
 > This procedure involves some good knowledge of Linux systems and Docker containers and it is intended for advanced users
 
 > [!TIP]
@@ -28,7 +28,7 @@ To activate a license and run the container for more than 120 minutes, internet 
 - If no internet connectivity is available, the FactoryTalk® Optix™ Application will be stopped after 120 minutes and must be deployed again from FactoryTalk® Optix™ Studio
 - The license is passed to the container as an environment variable, this variable is then periodically checked to a Rockwell Automation server to check its validity
 
-> [!CAUTION]
+> [!WARNING]
 > As per FactoryTalk® Optix™ 1.5.x, no licensing mechanism of offline Docker Containers is available. If the container is not started with a valid license, or does not have internet connection (even if a valid license was provided), the Runtime will only work for 120 minutes. After the Runtime automatically stops, the FactoryTalk® Optix™ Application needs to be re-deployed to the container to restart.
 
 #### Additional notes
@@ -137,13 +137,15 @@ Now that the container is ready, we can execute it and deploy the FactoryTalk® 
 In this example we will assume that the base image is called `ftoptix-updateserver`, if you tagged the container with a different name, you may need to adapt the commands
 
 > [!WARNING]
-> Only a single FactoryTalk Optix container can be executed at a time, as FactoryTalk Optix Studio does not allow specifying a custom deployment port.
-> If you need to run multiple containers, you will need to unbind the port `49100` after the FactoryTalk Optix Runtime application is deployed and running, then start the next container.
+> FactoryTalk Optix Studio does not allow specifying a custom deployment port. The TCP port `49100` of the update server cannot be mapped to a different port
 
 > [!TIP]
+> To run multiple containers, first deploy and start the FactoryTalk Optix Runtime application. Once it's running, unbind port `49100` before starting the next container.
+
+> [!NOTE]
 > The first time the container is executed you may see an error message in the logs with something like `spawner: can't find command '/home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication/FTOptixRuntime'`, this is expected as the FactoryTalk Optix application is not deployed yet to the container.
 
-> [!TIP]
+> [!NOTE]
 > The port mapping argument follows the pattern `-p [host_port]:[container_port]`, in this example we are mapping the host port `49100` to the container port `49100` and the host port `50080` (accessible by pointing to the host machine) to the container port `80` (the internal port where the FactoryTalk Optix application will be exposing the WebPresentationEngine)
 
 #### Executing the container with a Runtime license
@@ -179,7 +181,7 @@ CONTAINER ID   IMAGE                  COMMAND                  CREATED          
 
 - Once the application is ready, configure the target with the proper IP Address and username and proceed with the deployment
 
-> [!TIP]
+> [!NOTE]
 > The default user is `admin` and the password is `FactoryTalkOptix`
 
 > [!TIP]
