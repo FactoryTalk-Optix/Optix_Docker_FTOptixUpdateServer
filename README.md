@@ -28,8 +28,11 @@ To activate a license and run the container for more than 120 minutes, internet 
 - If no internet connectivity is available, the FactoryTalk® Optix™ Application will be stopped after 120 minutes and must be deployed again from FactoryTalk® Optix™ Studio
 - The license is passed to the container as an environment variable, this variable is then periodically checked to a Rockwell Automation server to check its validity
 
+> [!TIP]
+> To know more about containers licensing, please refer to the tech note at: [IN41091](https://support.rockwellautomation.com/app/answers/answer_view/a_id/1156588)
+
 > [!WARNING]
-> As per FactoryTalk® Optix™ 1.5.x, no licensing mechanism of offline Docker Containers is available. If the container is not started with a valid license, or does not have internet connection (even if a valid license was provided), the Runtime will only work for 120 minutes. After the Runtime automatically stops, the FactoryTalk® Optix™ Application needs to be re-deployed to the container to restart.
+> As per FactoryTalk® Optix™ 1.6.x, no licensing mechanism of offline Docker Containers is available. If the container is not started with a valid license, or does not have internet connection (even if a valid license was provided), the Runtime will only work for 120 minutes. After the Runtime automatically stops, the FactoryTalk® Optix™ Application needs to be re-deployed to the container to restart.
 
 #### Additional notes
 
