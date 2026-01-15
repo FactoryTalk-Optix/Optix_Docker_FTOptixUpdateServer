@@ -1,4 +1,4 @@
-/UpdateServer/**
-!/UpdateServer/*.md
+/FactoryTalkOptixRuntimeToolsSetup/**
+!/FactoryTalkOptixRuntimeToolsSetup/*.md
 **.env
 **.tar.gz
