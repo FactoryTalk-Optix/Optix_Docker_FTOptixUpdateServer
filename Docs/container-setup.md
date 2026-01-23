@@ -9,24 +9,24 @@
 1. Go to the Factory Talk Hub page [link](https://home.cloud.rockwellautomation.com)
 2. Select the FactoryTalk® Optix™ tile
 
-![FT Optix tile](../Images/fthub.png "FT Optix tile")
+![FT Optix tile](../Resources/fthub.png "FT Optix tile")
 
 3. Click to download the FactoryTalk® Optix™ Runtime Tools compatible with the FactoryTalk® Optix™ Studio you are going to use
 
-![Runtime Tools download from FT Hub](../Images/runtimetools-fthub.png "Runtime Tools download from FT Hub")
+![Runtime Tools download from FT Hub](../Resources/runtimetools-fthub.png "Runtime Tools download from FT Hub")
 
 4. Select the Ubuntu Runtime Tools and download it
 
-![Runtime Tools download from PCDC](../Images/pcdc-selection.png "Runtime Tools from PCDC")
+![Runtime Tools download from PCDC](../Resources/pcdc-selection.png "Runtime Tools from PCDC")
 
 5. Accept the user agreement and start the downloader to get the Runtime Tools file
 
-![Runtime tools downloader](../Images/runtimetools-downloader.png "Runtime Tools downloader")
+![Runtime tools downloader](../Resources/runtimetools-downloader.png "Runtime Tools downloader")
 
 6. Navigate to `C:\RA`, locate the downloaded file and uncompress it until you get to the `.sh` files
     - Depending on the tools you used to decompress the archive, you may need to perform the operation once or twice to get to the `.sh` script
 
-![Unzipping Runtime Tools](../Images/unzip-tools.png "Unzipping Runtime Tools")
+![Unzipping Runtime Tools](../Resources/unzip-tools.png "Unzipping Runtime Tools")
 
 7. You should now have two `.sh` files: 
    - `FTOptixApplicationUpdateService.Ubuntu_22_x64.X.Y.Z.ZZZ.sh` which is used to setup the UpdateServer (required to deploy the project to the container)
@@ -34,7 +34,7 @@
 
 8. Copy these scripts to the FactoryTalkOptixRuntimeToolsSetup folder of the `FactoryTalkOptixRuntimeToolsSetup` repository.
 
-![Copy Runtime Tools to UpdateServer folder](../Images/copy-runtimetools.png "Copy Runtime Tools to UpdateServer folder")
+![Copy Runtime Tools to UpdateServer folder](../Resources/copy-runtimetools.png "Copy Runtime Tools to UpdateServer folder")
 
 ## Build the Docker image
 
