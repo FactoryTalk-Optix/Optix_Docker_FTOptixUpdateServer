@@ -2,6 +2,9 @@
 
 Use this guide to **activate** and **rehost** licenses in an **offline** container. We recommend binding persistent volumes so entitlements survive container restarts/crashes.
 
+> [!IMPORTANT]
+> Once a license is activated in a container, it is tied to that specific container instance. To move the license to another container or host, you must rehost (deactivate) it from the original container first. You cannot directly transfer licenses between different container instances without rehosting.
+
 ## Prerequisites
 
 - Docker container running (see [`container-setup.md`](./container-setup.md))
