@@ -39,7 +39,13 @@
 ## Build the Docker image
 
 1. Open the terminal to the root of this repository
-2. Build the Docker container with the following command: `docker build . -t optix-runtime-image -f Docker/Dockerfile`
+2. Build the Docker container with the following command
+
+```bash
+docker build . -t optix-runtime-image -f Docker/Dockerfile
+```
+
+Example output:
 
 ```bash
 root@ubuntu-VirtualBox:# docker build . -t optix-runtime-image -f Docker/Dockerfile

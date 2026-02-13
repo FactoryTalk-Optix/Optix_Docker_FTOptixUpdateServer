@@ -49,7 +49,7 @@ sudo chmod 755 /opt/Rockwell_Automation/docker_*
 #### Run Container with Mounted Volumes
 
 ```bash
-docker run -itd   -p 49100:49100   -p 50080:80   -v /opt/Rockwell_Automation/docker_entitlement:/opt/Rockwell_Automation/entitlement   -v /opt/Rockwell_Automation/docker_request:/opt/Rockwell_Automation/request   --name optix-runtime-container   optix-runtime-image
+docker run -itd   -p 49100:49100 -p 50080:80 -e ADMIN_PASSWORD=YourSecurePassword -v /opt/Rockwell_Automation/docker_entitlement:/opt/Rockwell_Automation/entitlement -v /opt/Rockwell_Automation/docker_request:/opt/Rockwell_Automation/request --name optix-runtime-container   optix-runtime-image
 ```
 
 #### Enter the container:
@@ -77,7 +77,7 @@ Use this workflow to activate a license in an offline container.
 Inside the container, generate a request file for your entitlement key:
 
 ```bash
-FTOptixEntitlementCli --offlineActivate   --entitlementKey AAAAA-BBBBB-CCCCC-DDDDD-EEEEE   --outputActivationRequestFile /opt/Rockwell_Automation/request/
+FTOptixEntitlementCli --offlineActivate --entitlementKey AAAAA-BBBBB-CCCCC-DDDDD-EEEEE --outputActivationRequestFile /opt/Rockwell_Automation/request/
 ```
 
 You should see a message like:
@@ -100,7 +100,7 @@ Use the FactoryTalk® Optix™ Entitlement CLI on the online host to process the
 Run the following command on the online machine:
 
 ```bash
-sudo FTOptixEntitlementCli --onlineActivate   --activationRequestFile /opt/Rockwell_Automation/docker_request/AAAAA-BBBBB-CCCCC-DDDDD-EEEEE.req   --outputEntitlementFile /opt/Rockwell_Automation/docker_entitlement
+sudo FTOptixEntitlementCli --onlineActivate --activationRequestFile /opt/Rockwell_Automation/docker_request/AAAAA-BBBBB-CCCCC-DDDDD-EEEEE.req   --outputEntitlementFile /opt/Rockwell_Automation/docker_entitlement
 ```
 
 You should see a message like:
@@ -207,7 +207,7 @@ In this setup, we need no special configuration when running the container.
 #### Run Container
 
 ```bash
-docker run -itd   -p 49100:49100   -p 50080:80   --name optix-runtime-container   optix-runtime-image
+docker run -itd   -p 49100:49100   -p 50080:80   -e ADMIN_PASSWORD=YourSecurePassword --name optix-runtime-container   optix-runtime-image
 ```
 
 #### Enter the container:

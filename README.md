@@ -8,10 +8,10 @@ The examples provided are to be used as a reference for building your applicatio
 
 ## Introduction
 
-This repository contains the required files to build and run a Docker Container with the Factory Talk Optix Update Service.
+This repository contains the required files to build and run a Docker Container with the FactoryTalk® Optix™ Update Service.
  
 > [!NOTE]
-> The default user is `admin` and the password is `FactoryTalkOptix`
+> The default user is `admin` and the password must be set when running the image as described in the [starting the container](#starting-the-container) section, with the `-e ADMIN_PASSWORD=YourSecurePassword` option
 
 > [!WARNING]
 > Upgrade of the `UpdateServer` via FactoryTalk® Optix™ IDE is not supported, a new container should be built and deployed if upgrading either the Runtime or the IDE
@@ -40,9 +40,9 @@ To activate a license and run the container for more than 120 minutes, internet 
 
 ## Requirements
 
-- FactoryTalk® Optix™ studio installed on  the development machine
-  - FactoryTalk® Optix™ version 1.7.0.0 or later for both online and offline licensing support
-  - FactoryTalk® Optix™ version 1.4.0.450 or later for online licensing support
+- FactoryTalk® Optix™ Studio 1.7.0.804 or later
+  - This same version should be used both for developing the application and for the Runtime Tools, otherwise compatibility issues may occur
+  - Previous versions of FactoryTalk® Optix™ Studio are no longer supported in containers
 - The latest Runtime Tools for Ubuntu x86-64 compatible to the FactoryTalk® Optix™ Studio version you are using to develop the application
 - Docker engine must be installed and running
 
@@ -52,13 +52,8 @@ To activate a license and run the container for more than 120 minutes, internet 
 > [!TIP]
 > Refer to the [official documentation](https://docs.docker.com/get-docker/) on how to get Docker running on the host machine
 
-> [!TIP]
-> Set users' right to access the Docker socket with either one of these steps if you want to run the container in rootless mode, either by:
-> - Changing the socket permissions with: `sudo chmod 666 /var/run/docker.sock` (valid up to next reboot)
-> - Configuring the Docker group ([official documentation](https://docs.docker.com/engine/install/linux-postinstall/))
->   - Add the new group: `sudo groupadd docker`
->   - Add the current user to the Docker group: `sudo usermod -aG docker $USER`
->   - Reboot the machine to apply changes
+> [!WARNING]
+> Set users' right to access the Docker socket to run the container in rootless mode, as described in the ([official documentation](https://docs.docker.com/engine/install/linux-postinstall/)).
 
 
 ## Container setup
@@ -82,11 +77,13 @@ In this example we will assume that the base image is called `optix-runtime-imag
 > [!TIP]
 > The port mapping argument follows the pattern `-p [host_port]:[container_port]`, in this example we are mapping the host port `49100` to the container port `49100` and the host port `50080` (accessible by pointing to the host machine) to the container port `80` (the internal port where the FactoryTalk Optix application will be exposing the WebPresentationEngine)
 
-- Run in shell: `docker run -itd -p 49100:49100 -p 50080:80 optix-runtime-image`
-    - Without a proper license, the runtime will automatically stop after 120 minutes
+- Run in shell: `docker run -e ADMIN_PASSWORD=YourSecurePassword -itd -p 49100:49100 -p 50080:80 optix-runtime-image`
 
-> [!NOTE]
-> The first time the container is started you may see an error message in the logs with something like `spawner: can't find command '/home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication/FTOptixRuntime'`, this is expected as the FactoryTalk Optix application is not deployed yet to the container.
+**Please note:**
+
+- Without a proper license, the FactoryTalk® Optix™ application will stop after 120 minutes and must be redeployed from FactoryTalk® Optix™ Studio
+- An admin password must be set using the `ADMIN_PASSWORD` environment variable, otherwise the container will stop after 5 seconds from the start, as a security measure to prevent running the container with no password for the admin user
+- The first time the container is started you may see an error message in the logs with something like `spawner: can't find command '/home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication/FTOptixRuntime'`, this is expected as the FactoryTalk Optix application is not deployed yet to the container.
 
 ### Starting the container with an online-validated license
 
@@ -103,6 +100,10 @@ Please refer to the [offline licensing](./Docs/offline-licensing.md) document fo
 ## Deploy the FactoryTalk® Optix™ Application
 
 Please refer to the [deploy the FactoryTalk® Optix™ Application](./Docs/deploy-optix-application.md) document for the steps required to deploy the application to the running container.
+
+> [!TIP]
+> If you receive an error like `Cannot load library: libFTOptix.NativeUIHeadful.so - Error: libnss3.so: cannot open shared object file` while deploying the application, you should make sure to remove the NativePresentationEngine from the deployment as it is not supported in the container.
+
 
 ## Check the container status
 

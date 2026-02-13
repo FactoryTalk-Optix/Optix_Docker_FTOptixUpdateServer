@@ -13,9 +13,6 @@ This document describes the steps required to deploy a FactoryTalk® Optix™ Ap
 
 - Once the application is ready, configure the target with the proper IP Address and username and proceed with the deployment
 
-> [!NOTE]
-> The default user is `admin` and the password is `FactoryTalkOptix`
-
 > [!TIP]
 > The target IP Address should be the IP of the host machine where the container is running (the container was started in bridge mode)
 

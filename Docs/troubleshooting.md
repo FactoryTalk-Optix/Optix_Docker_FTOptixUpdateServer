@@ -93,7 +93,7 @@ root@dfaa01569c9c:~#
 <details>
   <summary>How can I set the container to restart automatically if the UpdateServer fails?</summary>
 
-- Execute the container with: `docker run -itd -p 49100:49100 -p 50080:80 -e FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE --restart unless-stopped ftoptix-container`
+- Execute the container with: `docker run -itd -p 49100:49100 -p 50080:80 -e ADMIN_PASSWORD=YourSecurePassword -e FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE --restart unless-stopped optix-runtime-image`
 </details>
 
 <details>
@@ -102,7 +102,7 @@ root@dfaa01569c9c:~#
 - Run the container by binding the runtime app path (`/home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication`) to a folder on the host machine, for example:
 
 ```bash
-root@ubuntu-VirtualBox:~# docker run -itd -p 49100:49100 -p 50080:80 -e FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE -v /home/ubuntu/Documents/FTOptix:/home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication ftoptix-container
+root@ubuntu-VirtualBox:~# docker run -itd -p 49100:49100 -p 50080:80 -e ADMIN_PASSWORD=YourSecurePassword -e FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE -v /home/ubuntu/Documents/FTOptix:/home/admin/Rockwell_Automation/FactoryTalk_Optix/FTOptixApplication optix-runtime-image
 
 d0bd53d3ef******************************************
 
@@ -113,15 +113,7 @@ root@ubuntu-VirtualBox:~#
 <details>
   <summary>How do I change the deployment password of the UpdateServer?</summary>
 
-The UpdateServer will use the local machine's account to authenticate itself against the FactoryTalk® Optix™ Studio. To change the deployment password you can:
-
-- Change the default password while creating the container:
-    - Open the Dockerfile
-    - Change the content of: `RUN echo "admin:FactoryTalkOptix" | chpasswd`, here you can replace `FactoryTalkOptix` with any valid password you wish
-
-- Change the default password of a running container
-    - Access the container's shell using: `docker exec -it [container name] bash`
-    - Execute: `echo "admin:FactoryTalkOptix" | chpasswd`, here you can replace `FactoryTalkOptix` with any valid password you wish
+The UpdateServer will use the local machine's account to authenticate itself against the FactoryTalk® Optix™ Studio. To change the deployment password you can simply change the password being passed to the container with the `-e ADMIN_PASSWORD=YourSecurePassword` option when running the container.
 </details>
 
 <details>
@@ -130,14 +122,14 @@ The UpdateServer will use the local machine's account to authenticate itself aga
 - Make sure the container is up and running
 - Make sure the port 49100/TCP was exposed
 - Make sure the container is reachable
-- Make sure the proper user and password were used (default user is `admin` and the password is `FactoryTalkOptix`)
+- Make sure the proper user and password were used
 </details>
 
 <details>
   <summary>The license is not recognized by the FactoryTalk® Optix™ Application</summary>
 
-- Make sure the license is marked as "Available" in FactoryTalk� Hub�
-- Make sure FactoryTalk® Optix™ version 1.4.0.450 or later was used
+- Make sure the license is marked as "Available" in FactoryTalk® Hub®
+- Make sure FactoryTalk® Optix™ version 1.7.0.804 or later was used
     - Every FactoryTalk® Optix™ version comes with a specific UpdateServer version
     - Make sure the right UpdateServer version was used
 </details>

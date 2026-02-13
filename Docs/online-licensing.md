@@ -12,7 +12,7 @@ This guide shows how to run a container that **validates** a license online usin
 The following command runs the container with the environment variable `FTOPTIX_ENTITLEMENT_SERIAL_NUMBER` set to your license serial number.
 
 ```bash
-docker run -itd   -p 49100:49100   -p 50080:80   -e FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE   --name optix-runtime-container   optix-runtime-image
+docker run -itd -p 49100:49100 -p 50080:80 -e ADMIN_PASSWORD=YourSecurePassword -e FTOPTIX_ENTITLEMENT_SERIAL_NUMBER=AAAAA-BBBBB-CCCCC-DDDDD-EEEEE   --name optix-runtime-container optix-runtime-image
 ```
 
 > [!NOTE]
