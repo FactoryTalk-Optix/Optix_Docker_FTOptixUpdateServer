@@ -2,3 +2,7 @@
 !/FactoryTalkOptixRuntimeToolsSetup/*.md
 **.env
 **.tar.gz
+
+!CONTRIBUTING.md
+!LICENSE
+!SECURITY.md
