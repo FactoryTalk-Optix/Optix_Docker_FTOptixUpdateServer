@@ -117,4 +117,4 @@ CONTAINER ID   IMAGE                  COMMAND                  CREATED          
 
 ## Troubleshooting
 
-Please refer to the [troubleshooting](./troubleshooting.md) document for common issues and their solutions.
+Please refer to the [troubleshooting](./Docs/troubleshooting.md) document for common issues and their solutions.
