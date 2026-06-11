@@ -139,6 +139,6 @@ The UpdateServer will use the local machine's account to authenticate itself aga
 
   - Make sure the container was started with `-p 49100:49100` to expose the UpdateServer port to the host
   - Check the system daemon log at `/var/log/ftoptix/supervisord.log` and `/var/log/ftoptix/updateserver.log` inside the container to see if the UpdateServer was started
-  - If the logs from the system daemon reports a successful startup, check the UpdateServer logs at `/opt/Rockwell-Automation/FactoryTalk-Optix/ApplicationUpdateService/Log`
+  - If the logs from the system daemon reports a successful startup, check the UpdateServer logs at `/opt/Rockwell_Automation/FactoryTalk_Optix/ApplicationUpdateService/Log`
   - If both logs are not showing errors, run `sudo netstat -ntlp` on the host machine to check if anything is listening on the UpdateServer port. If yes, please check if any firewall was installed and properly configured.
 </details>

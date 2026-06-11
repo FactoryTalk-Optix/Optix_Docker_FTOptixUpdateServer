@@ -115,6 +115,20 @@ CONTAINER ID   IMAGE                  COMMAND                  CREATED          
 ************   optix-runtime-image   "/opt/Rockwell_Autom…"   10 minutes ago   Up 10 minutes   0.0.0.0:49100->49100/tcp, 0.0.0.0:50080->80/tcp,  reverent_wilson
 ```
 
+## Exporting and importing the container
+
+### Exporting the container
+
+```bash
+docker save optix-runtime-image:latest | gzip > optix-runtime-image.tar.gz
+```
+
+### Importing the container
+
+```bash
+gunzip -c optix-runtime-image.tar.gz | docker load
+```
+
 ## Troubleshooting
 
 Please refer to the [troubleshooting](./Docs/troubleshooting.md) document for common issues and their solutions.
